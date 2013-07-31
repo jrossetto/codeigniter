@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Contratos extends CI_Controller {
+class Orcamentos extends CI_Controller {
 
 	public function __construct()
 	{
@@ -12,15 +12,15 @@ class Contratos extends CI_Controller {
 		$this->load->library('grocery_CRUD');
 	}
 
-	public function _contrato_output($output = null)
+	public function _orcamento_output($output = null)
 	{
-		$this->load->view('contrato.php',$output);
+		$this->load->view('orcamento.php',$output);
 	}
 
 	
 	public function index()
 	{
-		$this->_contrato_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
+		$this->_orcamento_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
 	}
 
 	
@@ -30,15 +30,17 @@ class Contratos extends CI_Controller {
 			$crud = new grocery_CRUD();
 
 			$crud->set_theme('flexigrid');
-			$crud->set_table('contratos');
-			$crud->display_as('clientes_id','Cliente')
+			$crud->set_table('orcamentos');
+			$crud->display_as('cliente_id','Cliente')
 				 ->display_as('id','C&oacute;digo');
             $crud->columns('id','data_inicio','data_termino','manutencao_preventiva', 'data_mensalidades','valor_anual','valor_mensal','qtd_equipamentos','clientes_id');    
-    		$crud->set_subject('Contratos');
-     		$crud->set_relation('clientes_id','clientes','{id} - {nome}');
+    		$crud->set_subject('Orcamentos');
+    		$crud->set_relation('equipamentos_id','equipamentos','{id} - {equipamento}');
+     		$crud->set_relation('equipamentos_cliente_id','clientes','{id} - {nome}');
+     		
 			
 			$output = $crud->render();
-			$this->_contrato_output($output);
+			$this->_orcamento_output($output);
 
 		}catch(Exception $e){
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
